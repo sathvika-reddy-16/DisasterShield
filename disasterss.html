@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disaster Information</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #e3f2fd;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 350px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .disaster-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: left;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .disaster-btn:hover {
+            opacity: 0.9;
+        }
+
+        .earthquakes { background-color: #e57373; }
+        .cyclones { background-color: #64b5f6; }
+        .typhoons { background-color: #81c784; }
+        .floods { background-color: #ffb74d; }
+        .volcanoes { background-color: #ba68c8; }
+
+        .next-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: block;
+            margin-top: 20px;
+        }
+
+        .next-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Disaster Information</h1>
+        <a href="cyclones.html" class="disaster-btn cyclones">Cyclones</a>
+        <a href="earthquakes.html" class="disaster-btn earthquakes">Earthquakes</a>
+        <a href="typhoons.html" class="disaster-btn typhoons">Typhoons</a>
+        <a href="floods.html" class="disaster-btn floods">Floods</a>
+        <a href="volcanoes.html" class="disaster-btn volcanoes">Volcanoes</a>
+        <a href="helpline.html" class="next-btn">Next</a>
+    </div>
+</body>
+</html>

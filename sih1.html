@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Signup Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #b3e5fc; /* Changed background color */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            width: 100%;
+            background-color: rgba(51, 51, 51, 0.8);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            display: inline-block;
+            opacity: 0;
+            animation: fadeBlink 2s forwards, blink 1.5s infinite alternate;
+        }
+
+        @keyframes fadeBlink {
+            0% { opacity: 0; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .container {
+            width: 350px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 100px;
+            z-index: 10;
+            position: relative;
+        }
+
+        .container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .toggle-button {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .toggle-button button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .toggle-button button:hover {
+            background-color: #0056b3;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+
+        /* Styles for User Details Page */
+        .user-details-container {
+            width: 400px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .user-details-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .location-btn {
+            margin-top: 20px;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .location-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with App Name -->
+    <div class="header">
+        <h1>DisasterShield</h1>
+    </div>
+
+    <div class="container">
+        <h2 id="form-title">Login</h2>
+        <!-- Login Form -->
+        <form id="login-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter your username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+            </div>
+            <p id="error-message" class="error-message"></p>
+            <button type="button" class="submit-btn" onclick="validateLogin()">Login</button>
+        </form>
+
+        <!-- Signup Form (hidden by default) -->
+        <form id="signup-form" style="display: none;">
+            <div class="form-group">
+                <label for="signup-username">Username</label>
+                <input type="text" id="signup-username" placeholder="Choose a username" required>
+            </div>
+            <div class="form-group">
+                <label for="signup-email">Email</label>
+                <input type="email" id="signup-email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" placeholder="Create a password" required>
+            </div>
+            <p id="signup-error-message" class="error-message"></p>
+            <button type="button" class="submit-btn" onclick="validateSignup()">Sign Up</button>
+        </form>
+
+        <!-- Toggle Button -->
+        <div class="toggle-button">
+            <button id="toggle-button">Don't have an account? Sign Up</button>
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const toggleButton = document.getElementById('toggle-button');
+        const formTitle = document.getElementById('form-title');
+        const errorMessage = document.getElementById('error-message');
+        const signupErrorMessage = document.getElementById('signup-error-message');
+
+        toggleButton.addEventListener('click', () => {
+            if (loginForm.style.display === 'none') {
+                // Switch to Login Form
+                loginForm.style.display = 'block';
+                signupForm.style.display = 'none';
+                formTitle.textContent = 'Login';
+                toggleButton.textContent = "Don't have an account? Sign Up";
+            } else {
+                // Switch to Signup Form
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+                formTitle.textContent = 'Sign Up';
+                toggleButton.textContent = 'Already have an account? Login';
+            }
+        });
+
+        function validateLogin() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            if (username === '' || password === '') {
+                errorMessage.textContent = 'Please enter both username and password.';
+                return;
+            }
+            
+            // If validation passes, redirect to user details
+            redirectToUserDetails();
+        }
+
+        function validateSignup() {
+            const username = document.getElementById('signup-username').value.trim();
+            const email = document.getElementById('signup-email').value.trim();
+            const password = document.getElementById('signup-password').value.trim();
+            
+            if (username === '' || email === '' || password === '') {
+                signupErrorMessage.textContent = 'Please fill in all fields.';
+                return;
+            }
+            
+            // If validation passes, redirect to user details
+            redirectToUserDetails();
+        }
+
+        function redirectToUserDetails() {
+            // Create user details content
+            const userDetailsHtml = `
+                <div class="user-details-container">
+                    <h2>User Details</h2>
+                    <form id="user-details-form">
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number:</label>
+                            <input type="tel" id="phone" placeholder="Enter your phone number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="occupation">Location:</label>
+                            <input type="text" id="sdsl" placeholder="State, District, Street, Landmark">
+                        </div>
+                        <div class="form-group">
+                            <label for="age">Pincode:</label>
+                            <input type="number" id="pc" placeholder="Enter pincode" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address:</label>
+                            <input type="text" id="address" placeholder="Enter your address">
+                        </div>
+                        <button type="button" class="submit-btn" onclick="handleFormSubmit()">Submit Details</button>
+                        <button type="button" class="location-btn" onclick="getLocation()">Access Location</button>
+                    </form>
+                </div>
+            `;
+
+            // Inject the content into the body
+            document.body.innerHTML = userDetailsHtml;
+
+            // Add event handlers for new buttons
+            window.handleFormSubmit = function() {
+                alert("Details submitted successfully!");
+            };
+
+            window.getLocation = function() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition, showError);
+                } else {
+                    alert("Geolocation is not supported by this browser.");
+                }
+            };
+
+            function showPosition(position) {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                alert(`Location accessed successfully!\nLatitude: ${latitude}\nLongitude: ${longitude}`);
+                // Redirect to the weather prediction page
+                window.location.href = "weather-prediction.html";
+            }
+
+            function showError(error) {
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        alert("User denied the request for Geolocation.");
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        alert("Location information is unavailable.");
+                        break;
+                    case error.TIMEOUT:
+                        alert("The request to get user location timed out.");
+                        break;
+                    case error.UNKNOWN_ERROR:
+                        alert("An unknown error occurred.");
+                        break;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

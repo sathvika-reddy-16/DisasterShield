@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disaster Prediction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #e3f2fd;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 350px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .submit-btn, .skip-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .submit-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+
+        .skip-btn {
+            background-color: #ffc107;
+            color: black;
+            margin-top: 10px;
+        }
+
+        .skip-btn:hover {
+            background-color: #e0a800;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Disaster Prediction</h1>
+        <form id="weather-form">
+            <div class="form-group">
+                <label for="temperature">Temperature (°C):</label>
+                <input type="number" id="temperature" placeholder="Enter temperature in Celsius" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <input type="text" id="description" placeholder="Enter a brief description" required>
+            </div>
+            
+            <button type="button" class="submit-btn" onclick="predictDisaster()">Predict Disaster</button>
+            <button type="button" class="skip-btn" onclick="skipToDisasters()">Skip</button>
+        </form>
+        <div id="prediction-result" style="margin-top: 20px; text-align: center;"></div>
+    </div>
+
+    <script>
+        function predictDisaster() {
+            const temperature = parseFloat(document.getElementById('temperature').value);
+            const description = document.getElementById('description').value;
+            let prediction;
+
+            // Basic disaster prediction logic
+            if (isNaN(temperature)) {
+                prediction = "Please enter a valid temperature.";
+            } else if (temperature > 35) {
+                prediction = "High temperatures could lead to heat waves or wildfires. Stay safe and stay cool!";
+            } else if (temperature < 0) {
+                prediction = "Freezing temperatures might result in frostbite or hypothermia. Be cautious and stay warm!";
+            } else {
+                prediction = "The weather seems normal. No immediate disaster predicted.";
+            }
+
+            // Display the result
+            const predictionResult = `Based on the provided data (Temperature: ${temperature}°C, Description: ${description}), ${prediction}`;
+            document.getElementById('prediction-result').innerText = predictionResult;
+        }
+
+        function skipToDisasters() {
+            // Redirect to the disaster information page
+            window.location.href = "disasterss.html"; // Ensure this path is correct
+        }
+    </script>
+</body>
+</html>
